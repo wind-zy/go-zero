@@ -55,6 +55,7 @@ type (
 	Redis struct {
 		Addr  string
 		Type  string
+		User  string
 		Pass  string
 		tls   bool
 		brk   breaker.Breaker
@@ -113,6 +114,9 @@ func NewRedis(conf RedisConf, opts ...Option) (*Redis, error) {
 
 	if conf.Type == ClusterType {
 		opts = append([]Option{Cluster()}, opts...)
+	}
+	if len(conf.User) > 0 {
+		opts = append([]Option{WithUser(conf.User)}, opts...)
 	}
 	if len(conf.Pass) > 0 {
 		opts = append([]Option{WithPass(conf.Pass)}, opts...)
@@ -2892,6 +2896,13 @@ func WithPass(pass string) Option {
 func WithTLS() Option {
 	return func(r *Redis) {
 		r.tls = true
+	}
+}
+
+// WithUser customizes the given Redis with given username.
+func WithUser(user string) Option {
+	return func(r *Redis) {
+		r.User = user
 	}
 }
 

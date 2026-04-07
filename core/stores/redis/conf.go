@@ -19,6 +19,7 @@ type (
 	RedisConf struct {
 		Host     string
 		Type     string `json:",default=node,options=node|cluster"`
+		User     string `json:",optional"`
 		Pass     string `json:",optional"`
 		Tls      bool   `json:",optional"`
 		NonBlock bool   `json:",default=true"`
