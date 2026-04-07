@@ -41,6 +41,9 @@ func (rc RedisConf) NewRedis() *Redis {
 	if rc.Type == ClusterType {
 		opts = append(opts, Cluster())
 	}
+	if len(rc.User) > 0 {
+		opts = append(opts, WithUser(rc.User))
+	}
 	if len(rc.Pass) > 0 {
 		opts = append(opts, WithPass(rc.Pass))
 	}
